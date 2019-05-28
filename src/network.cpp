@@ -30,7 +30,7 @@ void Network::load_network(const std::string& filename) {
         definition_file >> mid_point >> leftside_value >> rightside_value;
 
         auto layer_response_funtion = [](auto mid_point, auto leftside_value, auto rightside_value) {
-            return [=](double x) { return x < mid_point ? leftside_value * x : rightside_value * x; };
+            return [=](double x) { return 1.0 / (1.0 + exp(-x)); };
         };
         LayerFactory factory;
         m_layers.push_back(factory.CreateLayer((LayerType)layer_type_num, layer_matrix,
@@ -103,14 +103,13 @@ Eigen::VectorXd Network::soft_max(Eigen::MatrixXd data) {
 
 int Network::predict_label(Eigen::VectorXd soft_max_result) {
     int label = 0;
-    int max = 0;
+    double max = 0;
     for (int i = 0; i < soft_max_result.size(); i++) {
         if (soft_max_result(i) > max) {
             max = soft_max_result(i);
             label = i;
         }
     }
-
     return label;
 }
 
