@@ -29,8 +29,8 @@ void Network::parse(const std::string& filename) {
             return [=](double x) { return x < mid_point ? leftside_value : rightside_value; };
         };
 
-        m_layers.push_back(
-            LayerFactory((LayerType)layer_type_num, layer_matrix, layer_response_funtion(mid_point, leftside_value, rightside_value)));
+        // m_layers.push_back(
+        //     LayerFactory((LayerType)layer_type_num, layer_matrix, layer_response_funtion(mid_point, leftside_value, rightside_value)));
     }
 
     definition_file >> error_type_num;
