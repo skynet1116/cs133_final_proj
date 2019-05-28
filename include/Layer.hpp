@@ -21,8 +21,6 @@ enum ErrorType {
 
 class Layer {
 public:
-    virtual ~Layer();
-
     virtual Eigen::MatrixXd calculate(Eigen::MatrixXd input_data) = 0;
 };
 
