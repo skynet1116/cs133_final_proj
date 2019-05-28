@@ -1,6 +1,6 @@
 #include "LinearTransformationLayer.hpp"
 #include <iostream>
-LinearTransformationLayer::LinearTransformationLayer(LayerType layer_type, Eigen::MatrixXd param,
+LinearTransformationLayer::LinearTransformationLayer( Eigen::MatrixXd param,
                                                      std::function<double(double)> rf)
     : layer_type(layer_type), layer_matrix(param), layer_response_function(rf) {}
 

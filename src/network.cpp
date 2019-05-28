@@ -1,4 +1,8 @@
 #include "network.hpp"
+#include <iostream>
+Network::Network() {}
+
+Network::~Network() {}
 
 void Network::parse(const std::string& filename) {
     std::ifstream definition_file(filename);
@@ -28,9 +32,8 @@ void Network::parse(const std::string& filename) {
         auto layer_response_funtion = [](auto mid_point, auto leftside_value, auto rightside_value) {
             return [=](double x) { return x < mid_point ? leftside_value : rightside_value; };
         };
-
-        // m_layers.push_back(
-        //     LayerFactory((LayerType)layer_type_num, layer_matrix, layer_response_funtion(mid_point, leftside_value, rightside_value)));
+        LayerFactory factory;
+        m_layers.push_back(factory.CreateLayer((LayerType)layer_type_num, layer_matrix, layer_response_funtion(mid_point, leftside_value, rightside_value)));
     }
 
     definition_file >> error_type_num;

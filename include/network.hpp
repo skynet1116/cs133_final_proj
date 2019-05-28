@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 #include "Layer.hpp"
-
+#include "Factory.hpp"
 class Network {
 private:
     std::vector<Layer> m_layers;

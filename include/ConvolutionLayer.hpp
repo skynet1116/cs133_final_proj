@@ -10,12 +10,11 @@
 class ConvolutionLayer : public Layer
 {
 private:
-    LayerType layer_type;
     Eigen::MatrixXd layer_matrix;
     std::function<double(double)> layer_response_function;
 
 public:
-    ConvolutionLayer(LayerType type, Eigen::MatrixXd param, std::function<double(double)> rf) : layer_type(type),
+    ConvolutionLayer(Eigen::MatrixXd param, std::function<double(double)> rf) :
                                                                                                 layer_matrix(param),
                                                                                                 layer_response_function(rf){};
     ~ConvolutionLayer() = default;

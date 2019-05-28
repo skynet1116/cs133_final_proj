@@ -24,7 +24,7 @@ enum ErrorType
 class Layer
 {
 public:
-    virtual Eigen::MatrixXd calculate(Eigen::MatrixXd input_data) = 0;
+    virtual Eigen::MatrixXd calculate(Eigen::MatrixXd input_data) {}
 };
 
 #endif //CS133_FINAL_LAYER_HPP

@@ -2,7 +2,7 @@
 
 class LinearTransformationLayer : public Layer {
 public:
-    LinearTransformationLayer(LayerType layer_type, Eigen::MatrixXd param, std::function<double(double)> rf);
+    LinearTransformationLayer(Eigen::MatrixXd param, std::function<double(double)> rf);
     Eigen::MatrixXd calculate(Eigen::MatrixXd input_data);
     ~LinearTransformationLayer();
 
