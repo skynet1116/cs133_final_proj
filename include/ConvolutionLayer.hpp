@@ -4,7 +4,9 @@
 
 #ifndef CS133FINAL_CONVOLUTIONLAYER_HPP
 #define CS133FINAL_CONVOLUTIONLAYER_HPP
-#include <Layer.hpp>
+#include "Layer.hpp"
+#include  <iostream>
+
 class ConvolutionLayer : public Layer
 {
 private:
@@ -16,7 +18,7 @@ public:
     ConvolutionLayer(LayerType type, Eigen::MatrixXd param, std::function<double(double)> rf) : layer_type(type),
                                                                                                 layer_matrix(param),
                                                                                                 layer_response_function(rf){};
-
+    ~ConvolutionLayer() = default;
     Eigen::MatrixXd calculate(Eigen::MatrixXd input_data)
     {
         int space_x = input_data.cols() - layer_matrix.cols() + 1;
@@ -24,31 +26,43 @@ public:
         Eigen::MatrixXd result(space_x, space_y);
         for (int i = 0; i < space_x; i++)
         {
-            for (int j = 0; i < space_y; j++)
+            for (int j = 0; j < space_y; j++)
             {
                 auto convolution_window = input_data.block(i, j, layer_matrix.cols(), layer_matrix.rows());
                 double sum = 0;
-                for (int row = 0; i < convolution_window.cols(); i++)
+                for (int row = 0; row < convolution_window.cols(); row++)
                 {
-                    for (int col = 0; i < convolution_window.rows(); i++)
+                    for (int col = 0; col < convolution_window.rows(); col++)
                     {
                         sum += convolution_window(row, col) * layer_matrix(row, col);
                     }
                 }
-                result << sum;
+                std::cout<<sum<<std::endl;
+                result(i,j)=sum;
             }
         }
+        response_function(result);
         return result;
     }
-};
-
-class ConvolutionLayerCreator : public LayerFactory
-{
-public:
-    Layer *FactoryMethod(LayerType type, Eigen::MatrixXd param, std::function<double(double)> rf)
+    void response_function(Eigen::MatrixXd &data)
     {
-        return ConvolutionLayer(type, param, rf);
+        for (int i = 0; i < data.rows(); i++)
+        {
+            for (int j = 0; j < data.cols(); j++)
+            {
+                data(i, j) = layer_response_function(data(i, j));
+            }
+        }
     }
 };
 
+//  class ConvolutionLayerCreator : public LayerFactory
+
+//  {
+//  public:
+//      ConvolutionLayer FactoryMethod(LayerType type, Eigen::MatrixXd param, std::function<double(double)> rf)
+//      {
+//          return ConvolutionLayer(type, param, rf);
+//      }
+//  };
 #endif //CS133FINAL_CONVOLUTIONLAYER_HPP
