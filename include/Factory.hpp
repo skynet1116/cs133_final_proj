@@ -5,15 +5,15 @@
 class LayerFactory
 {
 public:
-    Layer CreateLayer(LayerType type, Eigen::MatrixXd param, std::function<double(double)> rf)
+    Layer* CreateLayer(LayerType type, Eigen::MatrixXd param, std::function<double(double)> rf)
     {
         switch (type)
         {
         case linear_transformation:
-            return LinearTransformationLayer(param, rf);
+            return new LinearTransformationLayer(param, rf);
             break;
         case convolution:
-            return ConvolutionLayer(param, rf);
+            return new ConvolutionLayer(param, rf);
             break;
         default:
             break;

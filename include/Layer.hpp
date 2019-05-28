@@ -7,6 +7,7 @@
 
 #include <Eigen/Eigen>
 #include <functional>
+#include <iostream>
 
 enum LayerType
 {
@@ -14,11 +15,10 @@ enum LayerType
     convolution
 };
 
-// TODO
 enum ErrorType
 {
-    error_type1,
-    error_type2
+    error_type_abs,
+    error_type_l2
 };
 
 class Layer

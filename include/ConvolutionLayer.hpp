@@ -20,6 +20,7 @@ public:
     ~ConvolutionLayer() = default;
     Eigen::MatrixXd calculate(Eigen::MatrixXd input_data)
     {
+        std::cout<<"conv"<<std::endl;
         int space_x = input_data.cols() - layer_matrix.cols() + 1;
         int space_y = input_data.rows() - layer_matrix.rows() + 1;
         Eigen::MatrixXd result(space_x, space_y);
