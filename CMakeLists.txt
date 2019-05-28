@@ -17,7 +17,10 @@ setup_eigen()
 
 set(CS133_FINAL_LIB ${PROJECT_NAME})
 set(CS133_FINAL_SRC
+        ${PROJECT_SOURCE_DIR}/src/LinearTransformationLayer.cpp
         ${PROJECT_SOURCE_DIR}/src/Network.cpp)
 add_library(${CS133_FINAL_LIB} ${CS133_FINAL_SRC})
 target_link_libraries(${CS133_FINAL_LIB} Eigen3::Eigen)
 
+add_executable(run_test ${PROJECT_SOURCE_DIR}/test/test.cpp)
+target_link_libraries(run_test ${CS133_FINAL_LIB})
