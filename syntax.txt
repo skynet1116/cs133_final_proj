@@ -1,0 +1,11 @@
+<Layer number>
+<Layer type> <width> <height>
+data
+...
+<Response Function Midpoint> <left value> <right value>
+<Layer type> <width> <height>
+data
+...
+<Response Function Midpoint> <left value> <right value>
+<Error type 1/2>
+
