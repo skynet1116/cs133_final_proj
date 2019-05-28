@@ -142,7 +142,6 @@ int Network::predict_label(Eigen::VectorXd soft_max_result)
 double Network::error(Eigen::VectorXd output)
 {
     double result = 0.0;
-<<<<<<< HEAD
     //output.normalize();
     if (m_error_type == error_type_abs) {
         for (int i = 0; i < output.size(); i++) {
@@ -151,21 +150,6 @@ double Network::error(Eigen::VectorXd output)
     } else {
         for (int i = 0; i < output.size(); i++) {
             result += pow((output(i) - (label == i ? 1 : 0)), 2);
-=======
-    output.normalize();
-    if (m_error_type == error_type_abs)
-    {
-        for (int i = 0; i < output.size(); i++)
-        {
-            result += abs(output(i) - label == i ? 1 : 0);
-        }
-    }
-    else
-    {
-        for (int i = 0; i < output.size(); i++)
-        {
-            result += pow((output(i) - label == i ? 1 : 0), 2);
->>>>>>> 83d848c367a403a577e450ae1ae92ebcc9c8d2d0
         }
         result = pow(result, 0.5);
     }
@@ -188,15 +172,10 @@ bool Network::run()
 
     std::cout << "Predict label is: " << predicted_label << std::endl;
 
-<<<<<<< HEAD
     if (predicted_label != label)  {
         std::cout << "Prediction wrong!" << std::endl;
         return false;
     }
     std::cout << "Prediction right!" << std::endl;
-=======
-    if (predicted_label != label)
-        return false;
->>>>>>> 83d848c367a403a577e450ae1ae92ebcc9c8d2d0
     return true;
 }

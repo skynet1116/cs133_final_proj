@@ -19,10 +19,6 @@ public:
     ~ConvolutionLayer() = default;
     Eigen::MatrixXd calculate(Eigen::MatrixXd input_data)
     {
-<<<<<<< HEAD
-=======
-        std::cout << "conv" << std::endl;
->>>>>>> 83d848c367a403a577e450ae1ae92ebcc9c8d2d0
         int space_x = input_data.cols() - layer_matrix.cols() + 1;
         int space_y = input_data.rows() - layer_matrix.rows() + 1;
         Eigen::MatrixXd result(space_x, space_y);
@@ -39,12 +35,7 @@ public:
                         sum += convolution_window(row, col) * layer_matrix(row, col);
                     }
                 }
-<<<<<<< HEAD
                 result(i,j)=sum;
-=======
-                std::cout << sum << std::endl;
-                result(i, j) = sum;
->>>>>>> 83d848c367a403a577e450ae1ae92ebcc9c8d2d0
             }
         }
         response_function(result);
