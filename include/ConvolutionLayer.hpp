@@ -5,7 +5,7 @@
 #ifndef CS133FINAL_CONVOLUTIONLAYER_HPP
 #define CS133FINAL_CONVOLUTIONLAYER_HPP
 #include "Layer.hpp"
-#include  <iostream>
+#include <iostream>
 
 class ConvolutionLayer : public Layer
 {
@@ -14,13 +14,12 @@ private:
     std::function<double(double)> layer_response_function;
 
 public:
-    ConvolutionLayer(Eigen::MatrixXd param, std::function<double(double)> rf) :
-                                                                                                layer_matrix(param),
-                                                                                                layer_response_function(rf){};
+    ConvolutionLayer(Eigen::MatrixXd param, std::function<double(double)> rf) : layer_matrix(param),
+                                                                                layer_response_function(rf){};
     ~ConvolutionLayer() = default;
     Eigen::MatrixXd calculate(Eigen::MatrixXd input_data)
     {
-        std::cout<<"conv"<<std::endl;
+        std::cout << "conv" << std::endl;
         int space_x = input_data.cols() - layer_matrix.cols() + 1;
         int space_y = input_data.rows() - layer_matrix.rows() + 1;
         Eigen::MatrixXd result(space_x, space_y);
@@ -37,8 +36,8 @@ public:
                         sum += convolution_window(row, col) * layer_matrix(row, col);
                     }
                 }
-                std::cout<<sum<<std::endl;
-                result(i,j)=sum;
+                std::cout << sum << std::endl;
+                result(i, j) = sum;
             }
         }
         response_function(result);

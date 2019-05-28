@@ -5,7 +5,7 @@
 class LayerFactory
 {
 public:
-    Layer* CreateLayer(LayerType type, Eigen::MatrixXd param, std::function<double(double)> rf)
+    Layer *CreateLayer(LayerType type, Eigen::MatrixXd param, std::function<double(double)> rf)
     {
         switch (type)
         {
