@@ -5,19 +5,9 @@
 class LayerFactory
 {
 public:
-    Layer *CreateLayer(LayerType type, Eigen::MatrixXd param, std::function<double(double)> rf)
+    Layer *CreateLinearLayer(Eigen::MatrixXd param, std::function<double(double)> rf)
     {
-        switch (type)
-        {
-        case linear_transformation:
-            return new LinearTransformationLayer(param, rf);
-            break;
-        case convolution:
-            //return new ConvolutionLayer(param, rf);
-            break;
-        default:
-            break;
-        }
+        return new LinearTransformationLayer(param, rf);
     }
 };
 #endif //CS133_FINAL_FACTORY_HPP
