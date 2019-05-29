@@ -13,32 +13,61 @@ void Network::load_network(const std::string &filename)
     definition_file >> layer_num;
 
     int layer_type_num, error_type_num;
-    int layer_row, layer_column;
+    int out_dim, in_dim, layer_row, layer_column;
 
     for (int i = 0; i < layer_num; i++)
     {
-        definition_file >> layer_type_num >> layer_row >> layer_column;
-        Eigen::MatrixXd layer_matrix(layer_row, layer_column);
+        definition_file >> layer_type_num;
 
-        // read matrix
-        for (int r = 0; r < layer_row; r++)
+        if (layer_type_num == 0)
         {
-            for (int c = 0; c < layer_column; c++)
+            definition_file >> layer_row >> layer_column;
+            Eigen::MatrixXd layer_matrix(layer_row, layer_column);
+            for (int r = 0; r < layer_row; r++)
             {
-                definition_file >> layer_matrix(r, c);
+                for (int c = 0; c < layer_column; c++)
+                {
+                    definition_file >> layer_matrix(r, c);
+                }
             }
+
+            // read response function
+            int response_function_num;
+            definition_file >> response_function_num;
+
+            LayerFactory factory;
+            m_layers.push_back(factory.CreateLinearLayer(layer_matrix,[](double x){ return 1.0 / (1.0 + exp(-x));}));
         }
+        else
+        {
+            definition_file >> out_dim >> in_dim >> layer_row >> layer_column;
+            std::vector<Eigen::Tensor<double, 3>> tensors(out_dim);
+            for (int d = 0; d < out_dim; d++)
+            {
+                Eigen::Tensor<double, 3> t(in_dim, layer_row, layer_column);
+                for (int i_d = 0; i_d < in_dim; i_d++)
+                {
+                    for (int r = 0; r < layer_row; r++)
+                    {
+                        for (int c = 0; c < layer_column; c++)
+                        {
+                            definition_file >> t(i_d, r, c);
+                        }
+                    }
+                }
+            }
 
-        // read response function
-        double mid_point, leftside_value, rightside_value;
-        definition_file >> mid_point >> leftside_value >> rightside_value;
+            // read response function
+            double mid_point, leftside_value, rightside_value;
+            definition_file >> mid_point >> leftside_value >> rightside_value;
 
-        auto layer_response_funtion = [](auto mid_point, auto leftside_value, auto rightside_value) {
-            return [=](double x) { return 1.0 / (1.0 + exp(-x)); };
-        };
-        LayerFactory factory;
-        m_layers.push_back(factory.CreateLayer((LayerType)layer_type_num, layer_matrix,
-                                               layer_response_funtion(mid_point, leftside_value, rightside_value)));
+            auto layer_response_funtion = [](auto mid_point, auto leftside_value, auto rightside_value) {
+                return [=](double x) { return 1.0 / (1.0 + exp(-x)); };
+            };
+
+            LayerFactory factory;
+            // TODO
+        }
     }
 
     definition_file >> error_type_num;
