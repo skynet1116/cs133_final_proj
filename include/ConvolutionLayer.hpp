@@ -13,51 +13,80 @@ class ConvolutionLayer : public Layer
     using tensor = Eigen::Tensor<double, 3>;
 
 private:
-    int input_channel;
-    int output_channel;
     int padding;
     int stride;
     std::vector<tensor> kernels;
 
 public:
-    ConvolutionLayer(int in, int out, int padding, int stride, std::vector<tensor> param) : input_channel(in),
-                                                                                            output_channel(out),
-                                                                                            padding(padding),
+    ConvolutionLayer(int padding, int stride, std::vector<tensor> param) : padding(padding),
                                                                                             stride(stride),
                                                                                             kernels(param){};
     ~ConvolutionLayer() = default;
-    tensor calculate(tensor input)
+    Eigen::MatrixXd conv_2d(Eigen::MatrixXd input_data, Eigen::MatrixXd kernel)
     {
-        int output_x = kernels[0].dimension(1) - input.dimension(1);
-        int output_y = kernels[0].dimension(2) - input.dimension(2);
-        tensor result(output_channel, output_x, output_y);
-
-        for (int channel = 0; channel < output_channel; channel++)
+        int space_x = input_data.cols() - kernel.cols() + 1;
+        int space_y = input_data.rows() - kernel.rows() + 1;
+        Eigen::MatrixXd result(space_x, space_y);
+        for (int i = 0; i < space_x; i++)
         {
-
-            tensor kernel = kernels[channel];
-            int conv_window_x = input.dimension(1) - kernel.dimension(1) + 1;
-            int conv_window_y = input.dimension(2) - kernel.dimension(2) + 1;
-            for (int i = 0; i < conv_window_x; i++)
+            for (int j = 0; j < space_y; j++)
             {
-                for (int j = 0; j < conv_window_y; j++)
+                auto convolution_window = input_data.block(i, j, kernel.cols(), kernel.rows());
+                double sum = 0;
+                for (int row = 0; row < convolution_window.cols(); row++)
                 {
-                    int sum=0;
-                    for (int x = 0; x < kernel.dimension(1); x++)
+                    for (int col = 0; col < convolution_window.rows(); col++)
                     {
-                        for (int y = 0; x < kernel.dimension(2); y++)
-                        {
-                            for (int frame = 0; frame < input_channel; frame++)
-                            {
-                                sum += kernel(frame, x, y) * input(frame, x + i, y + j);
-                            }
-                        }
-                        result(channel, i, j) = sum;
+                        sum += convolution_window(row, col) * kernel(row, col);
                     }
                 }
+                result(i, j) = sum;
             }
-            return result;
         }
+        return result;
+    }
+    tensor calculate(tensor input)
+    {
+        int conv_window_x = input.dimension(1) - kernels[0].dimension(1) + 1;
+        int conv_window_y = input.dimension(2) - kernels[0].dimension(2) + 1;
+        tensor result(kernels.size(), conv_window_x, conv_window_y);
+        auto tensor2matrix = [](tensor t) -> std::vector<Eigen::MatrixXd> {
+            for (int depth = 0; depth < t.dimension(0); depth++)
+            {
+                std::vector<Eigen::MatrixXd> result;
+                Eigen::MatrixXd temp(t.dimension(1), t.dimension(2));
+                for (int x = 0; x < t.dimension(1); x++)
+                {
+                    for (int y = 0; y < t.dimension(2); y++)
+                    {
+                        temp(x, y) = t(depth, x, y);
+                    }
+                }
+                result.push_back(temp);
+                return result;
+            }
+        };
+        std::vector<Eigen::MatrixXd> input_matrice = tensor2matrix(input);
+        for (int i = 0; i < kernels.size(); i++)
+        {
+            tensor kernel = kernels[i];
+            std::vector<Eigen::MatrixXd> kernel_matrice = tensor2matrix(kernel);
+            Eigen::MatrixXd frame(conv_window_x, conv_window_y);
+            frame.setConstant(0.0);
+            for (int index = 0; index < kernel_matrice.size(); index++)
+            {
+                frame += conv_2d(input_matrice[index], kernel_matrice[index]);
+            }
+            for (int x = 0; x < conv_window_x; x++)
+            {
+                for (int y = 0; y <conv_window_y; y++)
+                {
+                    result(i,x,y)=frame(x,y);
+                }
+            }
+        }
+
+        return result;
     }
 };
 #endif //CS133FINAL_CONVOLUTIONLAYER_HPP
