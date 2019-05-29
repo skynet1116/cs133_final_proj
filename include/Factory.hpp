@@ -13,7 +13,7 @@ public:
             return new LinearTransformationLayer(param, rf);
             break;
         case convolution:
-            return new ConvolutionLayer(param, rf);
+            //return new ConvolutionLayer(param, rf);
             break;
         default:
             break;

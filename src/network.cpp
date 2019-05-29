@@ -89,9 +89,18 @@ void Network::read_one_data()
 
     label = number;
 }
-void read_from_board()
+void Network::read_from_board(std::vector<int> input)
 {
     Eigen::MatrixXd d(width, height);
+    int count=0;
+    for (int i=0;i<width;i++){
+        for (int j=0;j<height;j++){
+            d(i,j)=input[count];
+            count++;
+        }
+    }
+    m_data=d;
+    label=-1;
 }
 
 Eigen::MatrixXd Network::go_through_layers()

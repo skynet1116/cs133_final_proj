@@ -6,62 +6,58 @@
 #define CS133FINAL_CONVOLUTIONLAYER_HPP
 #include "Layer.hpp"
 #include <iostream>
+#include <unsupported/Eigen/CXX11/Tensor>
 
 class ConvolutionLayer : public Layer
 {
+    using tensor = Eigen::Tensor<double, 3>;
+
 private:
-    Eigen::MatrixXd layer_matrix;
-    std::function<double(double)> layer_response_function;
+    int input_channel;
+    int output_channel;
+    int padding;
+    int stride;
+    std::vector<tensor> kernels;
 
 public:
-    ConvolutionLayer(Eigen::MatrixXd param, std::function<double(double)> rf) : layer_matrix(param),
-                                                                                layer_response_function(rf){};
+    ConvolutionLayer(int in, int out, int padding, int stride, std::vector<tensor> param) : input_channel(in),
+                                                                                            output_channel(out),
+                                                                                            padding(padding),
+                                                                                            stride(stride),
+                                                                                            kernels(param){};
     ~ConvolutionLayer() = default;
-    Eigen::MatrixXd calculate(Eigen::MatrixXd input_data)
+    tensor calculate(tensor input)
     {
-        std::cout << "conv" << std::endl;
-        int space_x = input_data.cols() - layer_matrix.cols() + 1;
-        int space_y = input_data.rows() - layer_matrix.rows() + 1;
-        Eigen::MatrixXd result(space_x, space_y);
-        for (int i = 0; i < space_x; i++)
+        int output_x = kernels[0].dimension(1) - input.dimension(1);
+        int output_y = kernels[0].dimension(2) - input.dimension(2);
+        tensor result(output_channel, output_x, output_y);
+
+        for (int channel = 0; channel < output_channel; channel++)
         {
-            for (int j = 0; j < space_y; j++)
+
+            tensor kernel = kernels[channel];
+            int conv_window_x = input.dimension(1) - kernel.dimension(1) + 1;
+            int conv_window_y = input.dimension(2) - kernel.dimension(2) + 1;
+            for (int i = 0; i < conv_window_x; i++)
             {
-                auto convolution_window = input_data.block(i, j, layer_matrix.cols(), layer_matrix.rows());
-                double sum = 0;
-                for (int row = 0; row < convolution_window.cols(); row++)
+                for (int j = 0; j < conv_window_y; j++)
                 {
-                    for (int col = 0; col < convolution_window.rows(); col++)
+                    int sum=0;
+                    for (int x = 0; x < kernel.dimension(1); x++)
                     {
-                        sum += convolution_window(row, col) * layer_matrix(row, col);
+                        for (int y = 0; x < kernel.dimension(2); y++)
+                        {
+                            for (int frame = 0; frame < input_channel; frame++)
+                            {
+                                sum += kernel(frame, x, y) * input(frame, x + i, y + j);
+                            }
+                        }
+                        result(channel, i, j) = sum;
                     }
                 }
-                std::cout << sum << std::endl;
-                result(i, j) = sum;
             }
-        }
-        response_function(result);
-        return result;
-    }
-    void response_function(Eigen::MatrixXd &data)
-    {
-        for (int i = 0; i < data.rows(); i++)
-        {
-            for (int j = 0; j < data.cols(); j++)
-            {
-                data(i, j) = layer_response_function(data(i, j));
-            }
+            return result;
         }
     }
 };
-
-//  class ConvolutionLayerCreator : public LayerFactory
-
-//  {
-//  public:
-//      ConvolutionLayer FactoryMethod(LayerType type, Eigen::MatrixXd param, std::function<double(double)> rf)
-//      {
-//          return ConvolutionLayer(type, param, rf);
-//      }
-//  };
 #endif //CS133FINAL_CONVOLUTIONLAYER_HPP
