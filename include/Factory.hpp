@@ -9,5 +9,9 @@ public:
     {
         return new LinearTransformationLayer(param, rf);
     }
+    Layer *CreateConvolutionLayer(std::vector<Eigen::Tensor<double,3>> kernels)
+    {
+        return new ConvolutionLayer(kernels);
+    }
 };
 #endif //CS133_FINAL_FACTORY_HPP

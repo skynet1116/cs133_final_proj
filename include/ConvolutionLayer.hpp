@@ -18,9 +18,7 @@ private:
     std::vector<tensor> kernels;
 
 public:
-    ConvolutionLayer(int padding, int stride, std::vector<tensor> param) : padding(padding),
-                                                                                            stride(stride),
-                                                                                            kernels(param){};
+    ConvolutionLayer(std::vector<tensor> param) : kernels(param){};
     ~ConvolutionLayer() = default;
     Eigen::MatrixXd conv_2d(Eigen::MatrixXd input_data, Eigen::MatrixXd kernel)
     {
@@ -79,9 +77,9 @@ public:
             }
             for (int x = 0; x < conv_window_x; x++)
             {
-                for (int y = 0; y <conv_window_y; y++)
+                for (int y = 0; y < conv_window_y; y++)
                 {
-                    result(i,x,y)=frame(x,y);
+                    result(i, x, y) = frame(x, y);
                 }
             }
         }

@@ -1,15 +1,17 @@
-#include "ConvolutionLayer.hpp"
+#include "Network.hpp"
 int main()
 {
-    Eigen::Tensor<double,3> data(5,5,5);
-    data.setConstant(0.25);
-    std::vector<Eigen::Tensor<double,3>> kernels;
-    for (int i=1;i<6;i++){
-        Eigen::Tensor<double,3> temp(5,3,3);
-        temp.setConstant(0.1*i);
-        kernels.push_back(temp);
+    Network n;
+    n.load_network("../data/conv_net.dat");
+    n.open_file("../data/t10k-images.idx3-ubyte", "../data/t10k-labels.idx1-ubyte");
+    int counter = 0;
+    for (int i = 0; i < 10000; i++) {
+        std::cout << "Sample " << i << " :" << std::endl;
+        n.read_one_data();
+        if (!n.run()) counter++;
+        std::cout << std::endl;
     }
-    ConvolutionLayer conv(0,1,kernels);
-
-    std::cout<<conv.calculate(data)<<std::endl;
+    std::cout << "Error num: " << counter << std::endl;
+    std::cout << "Error rate: " << counter/(double)100 << "\%" << std::endl;
+    return 0;
 }

@@ -66,7 +66,7 @@ void Network::load_network(const std::string &filename)
             };
 
             LayerFactory factory;
-            // TODO
+            m_layers.push_back(factory.CreateConvolutionLayer(tensors));
         }
     }
 
