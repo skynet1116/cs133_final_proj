@@ -129,7 +129,8 @@ Eigen::VectorXd Network::soft_max(Eigen::MatrixXd data)
     {
         result(i) = exp(data(i)) / sum;
     }
-    return result;
+
+    return result/result.sum();
 }
 
 int Network::predict_label(Eigen::VectorXd soft_max_result)
@@ -150,19 +151,14 @@ int Network::predict_label(Eigen::VectorXd soft_max_result)
 double Network::error(Eigen::VectorXd output)
 {
     double result = 0.0;
-    output.normalize();
-    if (m_error_type == error_type_abs)
-    {
-        for (int i = 0; i < output.size(); i++)
-        {
-            result += abs(output(i) - label == i ? 1 : 0);
+    //output.normalize();
+    if (m_error_type == error_type_abs) {
+        for (int i = 0; i < output.size(); i++) {
+            result += std::abs(output(i) - (label == i ? 1 : 0));
         }
-    }
-    else
-    {
-        for (int i = 0; i < output.size(); i++)
-        {
-            result += pow((output(i) - label == i ? 1 : 0), 2);
+    } else {
+        for (int i = 0; i < output.size(); i++) {
+            result += pow((output(i) - (label == i ? 1 : 0)), 2);
         }
         result = pow(result, 0.5);
     }
@@ -177,11 +173,18 @@ bool Network::run()
 
     Eigen::VectorXd soft_max_result = soft_max(result);
     int predicted_label = predict_label(soft_max_result);
-    std::cout << "Predict label is: " << predicted_label << std::endl;
-    double error_result = error(soft_max_result);
-    std::cout << "Error is: " << error_result << std::endl;
 
-    if (predicted_label != label)
+    // double error_result = error(soft_max_result);
+    for (int i = 0; i < soft_max_result.size(); i++) {
+        std::cout << "Probability of label " << i << " is: " << soft_max_result(i) << std::endl;
+    }
+
+    std::cout << "Predict label is: " << predicted_label << std::endl;
+
+    if (predicted_label != label)  {
+        std::cout << "Prediction wrong!" << std::endl;
         return false;
+    }
+    std::cout << "Prediction right!" << std::endl;
     return true;
 }
