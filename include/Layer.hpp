@@ -8,6 +8,7 @@
 #include <Eigen/Eigen>
 #include <functional>
 #include <iostream>
+#include <unsupported/Eigen/CXX11/Tensor>
 
 enum LayerType
 {
@@ -21,10 +22,11 @@ enum ErrorType
     error_type_l2
 };
 
+
 class Layer
 {
 public:
-    virtual Eigen::MatrixXd calculate(Eigen::MatrixXd input_data) {}
+    virtual Eigen::Tensor<double, 3> calculate(Eigen::Tensor<double, 3> input_data) {}
 };
 
 #endif //CS133_FINAL_LAYER_HPP

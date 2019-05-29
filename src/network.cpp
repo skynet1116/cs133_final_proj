@@ -132,18 +132,43 @@ void Network::read_from_board(std::vector<int> input)
     label=-1;
 }
 
-Eigen::MatrixXd Network::go_through_layers()
-{
-    std::vector<Eigen::MatrixXd> matrices(m_layers.size() + 1);
-    matrices[0] = m_data;
-    for (int i = 0; i < m_layers.size(); i++)
-    {
-        Layer *cur_layer = m_layers[i];
+Eigen::Tensor<double, 3> mToT(Eigen::MatrixXd input) {
+    Eigen::Tensor<double, 3> result(1, input.rows(), input.cols());
 
-        matrices[i + 1] = cur_layer->calculate(matrices[i]);
+    for (int i = 0; i < input.rows(); i++) {
+        for (int j = 0; j < input.cols(); j++) {
+            result(0, i, j) = input(i, j);
+        }
     }
 
-    return matrices[matrices.size() - 1];
+    return result;
+}
+
+Eigen::MatrixXd tToM(Eigen::Tensor<double, 3> input) {
+    Eigen::MatrixXd result(input.dimension(1), input.dimension(2));
+
+    for (int i = 0; i < input.dimension(1); i++) {
+        for (int j = 0; j < input.dimension(2); j++) {
+            result(i, j) = input(0, i, j);
+        }
+    }
+
+    return result;
+}
+
+Eigen::MatrixXd Network::go_through_layers()
+{
+    std::vector<Eigen::Tensor<double,3>> tensors(m_layers.size() + 1);
+    tensors[0] = mToT(m_data);
+    for (int i = 0; i < m_layers.size(); i++)
+    {
+        std::cout << i << std::endl;
+        Layer *cur_layer = m_layers[i];
+
+        tensors[i + 1] = cur_layer->calculate(tensors[i]);
+    }
+
+    return tToM(tensors[tensors.size() - 1]);
 }
 
 Eigen::VectorXd Network::soft_max(Eigen::MatrixXd data)

@@ -1,3 +1,6 @@
+#ifndef CS133_FINAL_NETWORK_HPP
+#define CS133_FINAL_NETWORK_HPP
+
 #include <Eigen/Eigen>
 #include <cstdio>
 #include <cstdlib>
@@ -35,3 +38,5 @@ public:
     double error(Eigen::VectorXd output);
     bool run();
 };
+
+#endif
