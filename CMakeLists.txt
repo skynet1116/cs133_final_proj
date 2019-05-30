@@ -15,6 +15,10 @@ configure_file(${PROJECT_SOURCE_DIR}/cmake/get_eigen.cmake.in
         ${CMAKE_CURRENT_BINARY_DIR}/eigen-download/CMakeLists.txt)
 setup_eigen()
 
+
+configure_file(cmake/get_pybind11.cmake.in pybind11-download/CMakeLists.txt)
+download_pybind11()
+
 set(CS133_FINAL_LIB ${PROJECT_NAME})
 set(CS133_FINAL_SRC
         ${PROJECT_SOURCE_DIR}/src/Network.cpp)
