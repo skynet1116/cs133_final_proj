@@ -39,6 +39,7 @@ public:
                         sum += convolution_window(row, col) * kernel(row, col);
                     }
                 }
+                sum=response_function(sum);
                 result(i, j) = sum;
             }
         }
