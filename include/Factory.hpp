@@ -13,5 +13,6 @@ public:
     {
         return new ConvolutionLayer(kernels);
     }
+    Layer *CreateMaxPoolLayer(std::vector<int> param, std::function<double(double)> rf);
 };
 #endif //CS133_FINAL_FACTORY_HPP
