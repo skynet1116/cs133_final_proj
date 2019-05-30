@@ -26,3 +26,7 @@ target_link_libraries(linear_test ${CS133_FINAL_LIB})
 
 add_executable(conv_test ${PROJECT_SOURCE_DIR}/test/test_conv.cpp)
 target_link_libraries(conv_test ${CS133_FINAL_LIB})
+
+
+add_executable(cnn ${PROJECT_SOURCE_DIR}/test/unit_test_conv.cpp)
+target_link_libraries(cnn ${CS133_FINAL_LIB})
