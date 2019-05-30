@@ -1,0 +1,1 @@
+C:\Users\15752\AppData\Local\Programs\Python\Python37\python.exe C:\Users\15752\CLionProjects\cs133_final_proj\test\main.py
