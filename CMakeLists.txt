@@ -16,8 +16,8 @@ configure_file(${PROJECT_SOURCE_DIR}/cmake/get_eigen.cmake.in
 setup_eigen()
 
 
-configure_file(cmake/get_pybind11.cmake.in pybind11-download/CMakeLists.txt)
-download_pybind11()
+# configure_file(cmake/get_pybind11.cmake.in pybind11-download/CMakeLists.txt)
+# download_pybind11()
 
 set(CS133_FINAL_LIB ${PROJECT_NAME})
 set(CS133_FINAL_SRC

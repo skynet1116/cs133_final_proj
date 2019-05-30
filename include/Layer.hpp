@@ -26,7 +26,7 @@ enum ErrorType
 class Layer
 {
 public:
-    virtual Eigen::Tensor<double, 3> calculate(Eigen::Tensor<double, 3> input_data) {}
+	virtual Eigen::Tensor<double, 3> calculate(Eigen::Tensor<double, 3> input_data) { return Eigen::Tensor<double,3>(1, 2, 3); }
 };
 
 #endif //CS133_FINAL_LAYER_HPP

@@ -136,7 +136,7 @@ void Network::read_from_board(std::vector<int> input)
             count++;
         }
     }
-    m_data=d;
+    m_data=d.transpose();
     label=-1;
 }
 
@@ -170,14 +170,14 @@ Eigen::MatrixXd Network::go_through_layers()
     tensors[0] = mToT(m_data);
     for (int i = 0; i < m_layers.size(); i++)
     {
-        std::cout << "Layer: " << i << std::endl;
-        std::cout << tensors[i] << std::endl;
+        // std::cout << "Layer: " << i << std::endl;
+        // std::cout << tensors[i] << std::endl;
         Layer *cur_layer = m_layers[i];
 
         tensors[i + 1] = cur_layer->calculate(tensors[i]);
     }
 
-    std::cout << tensors[tensors.size() - 1] << std::endl;
+    // std::cout << tensors[tensors.size() - 1] << std::endl;
     return tToM(tensors[tensors.size() - 1]);
 }
 
