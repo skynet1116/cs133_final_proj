@@ -45,7 +45,7 @@ void Network::load_network(const std::string &filename)
             definition_file >> response_function_num;
 
             LayerFactory factory;
-            m_layers.push_back(factory.CreateLinearLayer(layer_matrix,response_functions[response_function_num]));
+            m_layers.push_back(factory.CreateLinearLayer(layer_matrix, response_functions[response_function_num]));
         }
         else
         {
@@ -73,7 +73,7 @@ void Network::load_network(const std::string &filename)
 
             LayerFactory factory;
             std::vector<int> mp_param = {2, 2};
-            m_layers.push_back(factory.CreateConvolutionLayer(tensors));
+            m_layers.push_back(factory.CreateConvolutionLayer(tensors, response_functions[response_function_num]));
             m_layers.push_back(factory.CreateMaxPoolLayer(mp_param, [](double x){ return x;}));
         }
     }
@@ -170,13 +170,14 @@ Eigen::MatrixXd Network::go_through_layers()
     tensors[0] = mToT(m_data);
     for (int i = 0; i < m_layers.size(); i++)
     {
-        // std::cout << "Layer: " << i << std::endl;
-        // std::cout << tensors[i] << std::endl;
+        std::cout << "Layer: " << i << std::endl;
+        std::cout << tensors[i] << std::endl;
         Layer *cur_layer = m_layers[i];
 
         tensors[i + 1] = cur_layer->calculate(tensors[i]);
     }
 
+    std::cout << tensors[tensors.size() - 1] << std::endl;
     return tToM(tensors[tensors.size() - 1]);
 }
 
