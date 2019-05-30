@@ -11,6 +11,7 @@
 #include "Layer.hpp"
 #include "Factory.hpp"
 
+
 const int height = 28;
 const int width = 28;
 

@@ -37,7 +37,7 @@ int main()
         std::cout<<"_______"<<std::endl;
     }
     std::cout<<"cnn!"<<std::endl;
-    ConvolutionLayer object(kernels);
+    ConvolutionLayer object(kernels,[](double x){return x;});
     std::cout<<object.calculate(data)<<std::endl;
     return 0;
 }

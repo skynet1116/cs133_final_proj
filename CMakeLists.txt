@@ -21,6 +21,9 @@ set(CS133_FINAL_SRC
 add_library(${CS133_FINAL_LIB} ${CS133_FINAL_SRC})
 target_link_libraries(${CS133_FINAL_LIB} Eigen3::Eigen)
 
+add_subdirectory(pybind11)
+pybind11_add_module(example ${PROJECT_SOURCE_DIR}/src/cnn.cpp ${CS133_FINAL_SRC})
+target_link_libraries(example PRIVATE Eigen3::Eigen)
 add_executable(linear_test ${PROJECT_SOURCE_DIR}/test/test_linear.cpp)
 target_link_libraries(linear_test ${CS133_FINAL_LIB})
 

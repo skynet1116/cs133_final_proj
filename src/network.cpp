@@ -73,7 +73,7 @@ void Network::load_network(const std::string &filename)
 
             LayerFactory factory;
             std::vector<int> mp_param = {2, 2};
-            m_layers.push_back(factory.CreateConvolutionLayer(tensors));
+            m_layers.push_back(factory.CreateConvolutionLayer(tensors,[](double x){ return x;}));
             m_layers.push_back(factory.CreateMaxPoolLayer(mp_param, [](double x){ return x;}));
         }
     }
