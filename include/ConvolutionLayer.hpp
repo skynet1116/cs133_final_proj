@@ -49,9 +49,9 @@ public:
         int conv_window_y = input.dimension(2) - kernels[0].dimension(2) + 1;
         tensor result(kernels.size(), conv_window_x, conv_window_y);
         auto tensor2matrix = [](tensor t) -> std::vector<Eigen::MatrixXd> {
+            std::vector<Eigen::MatrixXd> result;
             for (int depth = 0; depth < t.dimension(0); depth++)
             {
-                std::vector<Eigen::MatrixXd> result;
                 Eigen::MatrixXd temp(t.dimension(1), t.dimension(2));
                 for (int x = 0; x < t.dimension(1); x++)
                 {
@@ -61,8 +61,9 @@ public:
                     }
                 }
                 result.push_back(temp);
-                return result;
+                std::cout<<result.size()<<std::endl;
             }
+            return result;
         };
         std::vector<Eigen::MatrixXd> input_matrice = tensor2matrix(input);
         for (int i = 0; i < kernels.size(); i++)
