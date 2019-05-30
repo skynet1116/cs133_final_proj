@@ -16,9 +16,10 @@ private:
     int padding;
     int stride;
     std::vector<tensor> kernels;
+    std::function<double(double)> response_function;
 
 public:
-    ConvolutionLayer(std::vector<tensor> param) : kernels(param){};
+    ConvolutionLayer(std::vector<tensor> param,std::function<double(double)> rf) : kernels(param),response_function(rf){};
     ~ConvolutionLayer() = default;
     Eigen::MatrixXd conv_2d(Eigen::MatrixXd input_data, Eigen::MatrixXd kernel)
     {
