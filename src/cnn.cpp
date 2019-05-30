@@ -11,5 +11,5 @@ PYBIND11_MODULE(example, m) {
         .def(py::init<>())
         .def("read_from_board", &Network::read_from_board)
         .def("load_network", &Network::load_network)
-        .def("run", &Network::run);
+        .def("test", &Network::test);
 }

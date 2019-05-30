@@ -252,3 +252,15 @@ bool Network::run()
     std::cout << "Prediction right!" << std::endl;
     return true;
 }
+int Network::test()
+{
+    Eigen::MatrixXd result = go_through_layers();
+    Eigen::VectorXd soft_max_result = soft_max(result);
+    int predicted_label = predict_label(soft_max_result);
+    double error_result = error(soft_max_result);
+    for (int i = 0; i < soft_max_result.size(); i++) {
+        std::cout << "Probability of label " << i << " is: " << soft_max_result(i) << std::endl;
+    }
+    std::cout << "Predict label is: " << predicted_label << std::endl;
+    return predicted_label;
+}

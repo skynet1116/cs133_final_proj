@@ -38,6 +38,7 @@ public:
     int predict_label(Eigen::VectorXd soft_max_result);
     double error(Eigen::VectorXd output);
     bool run();
+    int test();
 };
 
 #endif

@@ -116,7 +116,8 @@ class MyMnistWindow(QWidget):
         n=example.Network()
         n.load_network("../data/model-neural-network.dat")
         n.read_from_board(tva)
-        n.run()
+        result = n.test()
+        return result
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     mymnist = MyMnistWindow()
