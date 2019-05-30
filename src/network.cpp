@@ -16,6 +16,14 @@ void Network::load_network(const std::string &filename)
     int out_dim, in_dim, layer_row, layer_column;
     int response_function_num;
 
+    std::vector<std::function<double(double)>> response_functions = {
+        [=](double x) { return x; }, //NO need for RF
+        [=](double x) { return 1.0 / (1.0 + exp(-x)); }, //sigmoid
+        [=](double x) { if(x<0){return 0.0;} else{return x;} }, //RELU
+        [=](double x) { if(x<0){return (0.1*x);} else{return x;} }, //Leaky RELU
+        [=](double x) { return tanh(x); } //tanh
+    };
+
     for (int i = 0; i < layer_num; i++)
     {
         definition_file >> layer_type_num;
@@ -37,7 +45,7 @@ void Network::load_network(const std::string &filename)
             definition_file >> response_function_num;
 
             LayerFactory factory;
-            m_layers.push_back(factory.CreateLinearLayer(layer_matrix,[](double x){ return 1.0 / (1.0 + exp(-x));}));
+            m_layers.push_back(factory.CreateLinearLayer(layer_matrix,response_functions[response_function_num]));
         }
         else
         {
@@ -63,12 +71,10 @@ void Network::load_network(const std::string &filename)
             // read response function
             definition_file >> response_function_num;
 
-            auto layer_response_funtion = [](auto mid_point, auto leftside_value, auto rightside_value) {
-                return [=](double x) { return 1.0 / (1.0 + exp(-x)); };
-            };
-
             LayerFactory factory;
+            std::vector<int> mp_param = {2, 2};
             m_layers.push_back(factory.CreateConvolutionLayer(tensors));
+            m_layers.push_back(factory.CreateMaxPoolLayer(mp_param, [](double x){ return x;}));
         }
     }
 
@@ -164,7 +170,7 @@ Eigen::MatrixXd Network::go_through_layers()
     tensors[0] = mToT(m_data);
     for (int i = 0; i < m_layers.size(); i++)
     {
-        std::cout << "Layer: " << i << std::endl;
+        // std::cout << "Layer: " << i << std::endl;
         // std::cout << tensors[i] << std::endl;
         Layer *cur_layer = m_layers[i];
 
@@ -231,10 +237,10 @@ bool Network::run()
     Eigen::VectorXd soft_max_result = soft_max(result);
     int predicted_label = predict_label(soft_max_result);
 
-    // double error_result = error(soft_max_result);
-    // for (int i = 0; i < soft_max_result.size(); i++) {
-    //     std::cout << "Probability of label " << i << " is: " << soft_max_result(i) << std::endl;
-    // }
+    double error_result = error(soft_max_result);
+    for (int i = 0; i < soft_max_result.size(); i++) {
+        std::cout << "Probability of label " << i << " is: " << soft_max_result(i) << std::endl;
+    }
 
     std::cout << "Predict label is: " << predicted_label << std::endl;
 

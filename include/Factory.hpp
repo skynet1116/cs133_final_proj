@@ -2,6 +2,7 @@
 #define CS133_FINAL_FACTORY_HPP
 #include "ConvolutionLayer.hpp"
 #include "LinearTransformationLayer.hpp"
+#include "MaxPoolLayer.hpp"
 class LayerFactory
 {
 public:
@@ -13,6 +14,9 @@ public:
     {
         return new ConvolutionLayer(kernels,rf);
     }
-    Layer *CreateMaxPoolLayer(std::vector<int> param, std::function<double(double)> rf);
+    Layer *CreateMaxPoolLayer(std::vector<int> param, std::function<double(double)> rf)
+    {
+        return new MaxPoolLayer(param, rf);
+    }
 };
 #endif //CS133_FINAL_FACTORY_HPP
