@@ -30,3 +30,5 @@ target_link_libraries(conv_test ${CS133_FINAL_LIB})
 
 add_executable(cnn ${PROJECT_SOURCE_DIR}/test/unit_test_conv.cpp)
 target_link_libraries(cnn ${CS133_FINAL_LIB})
+add_executable(unit_test_max_pool ${PROJECT_SOURCE_DIR}/test/unit_test_max_pool.cpp)
+target_link_libraries(unit_test_max_pool ${CS133_FINAL_LIB})

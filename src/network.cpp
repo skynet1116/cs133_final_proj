@@ -1,4 +1,4 @@
-#include "network.hpp"
+#include "Network.hpp"
 
 Network::Network() {}
 
