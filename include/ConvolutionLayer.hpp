@@ -61,9 +61,8 @@ public:
                     }
                 }
                 result.push_back(temp);
-                
             }
-            std::cout<<result.size()<<std::endl;
+            // std::cout<<result.size()<<std::endl;
             return result;
         };
         std::vector<Eigen::MatrixXd> input_matrice = tensor2matrix(input);

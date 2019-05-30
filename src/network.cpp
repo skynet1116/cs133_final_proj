@@ -43,7 +43,7 @@ void Network::load_network(const std::string &filename)
         {
             definition_file >> out_dim >> in_dim >> layer_row >> layer_column;
 
-            std::vector<Eigen::Tensor<double, 3>> tensors(out_dim);
+            std::vector<Eigen::Tensor<double, 3>> tensors;
             for (int d = 0; d < out_dim; d++)
             {
                 Eigen::Tensor<double, 3> t(in_dim, layer_row, layer_column);
@@ -57,6 +57,7 @@ void Network::load_network(const std::string &filename)
                         }
                     }
                 }
+                tensors.push_back(t);
             }
 
             // read response function
@@ -164,7 +165,7 @@ Eigen::MatrixXd Network::go_through_layers()
     for (int i = 0; i < m_layers.size(); i++)
     {
         std::cout << "Layer: " << i << std::endl;
-        std::cout << tensors[i] << std::endl;
+        // std::cout << tensors[i] << std::endl;
         Layer *cur_layer = m_layers[i];
 
         tensors[i + 1] = cur_layer->calculate(tensors[i]);
