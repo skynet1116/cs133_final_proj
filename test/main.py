@@ -25,7 +25,7 @@ class MyMnistWindow(QWidget):
         self.label_draw.setStyleSheet("QLabel{border:1px solid black;}")
         self.label_draw.setAlignment(Qt.AlignCenter)
 
-        self.label_result_name = QLabel('识别结果：', self)
+        self.label_result_name = QLabel('result: ', self)
         self.label_result_name.setGeometry(2, 290, 60, 35)
         self.label_result_name.setAlignment(Qt.AlignCenter)
 
@@ -35,15 +35,15 @@ class MyMnistWindow(QWidget):
         self.label_result.setStyleSheet("QLabel{border:1px solid black;}")
         self.label_result.setAlignment(Qt.AlignCenter)
 
-        self.btn_recognize = QPushButton("识别", self)
+        self.btn_recognize = QPushButton("run", self)
         self.btn_recognize.setGeometry(110, 290, 50, 35)
         self.btn_recognize.clicked.connect(self.btn_recognize_on_clicked)
 
-        self.btn_clear = QPushButton("清空", self)
+        self.btn_clear = QPushButton("clean", self)
         self.btn_clear.setGeometry(170, 290, 50, 35)
         self.btn_clear.clicked.connect(self.btn_clear_on_clicked)
 
-        self.btn_close = QPushButton("关闭", self)
+        self.btn_close = QPushButton("close", self)
         self.btn_close.setGeometry(230, 290, 50, 35)
         self.btn_close.clicked.connect(self.btn_close_on_clicked)
 
