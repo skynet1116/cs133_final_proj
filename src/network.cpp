@@ -14,10 +14,12 @@ void Network::load_network(const std::string &filename)
 
     int layer_type_num, error_type_num;
     int out_dim, in_dim, layer_row, layer_column;
+    int response_function_num;
 
     for (int i = 0; i < layer_num; i++)
     {
         definition_file >> layer_type_num;
+        // std::cout << layer_type_num << std::endl;
 
         if (layer_type_num == 0)
         {
@@ -32,7 +34,6 @@ void Network::load_network(const std::string &filename)
             }
 
             // read response function
-            int response_function_num;
             definition_file >> response_function_num;
 
             LayerFactory factory;
@@ -41,6 +42,7 @@ void Network::load_network(const std::string &filename)
         else
         {
             definition_file >> out_dim >> in_dim >> layer_row >> layer_column;
+
             std::vector<Eigen::Tensor<double, 3>> tensors(out_dim);
             for (int d = 0; d < out_dim; d++)
             {
@@ -58,8 +60,7 @@ void Network::load_network(const std::string &filename)
             }
 
             // read response function
-            double mid_point, leftside_value, rightside_value;
-            definition_file >> mid_point >> leftside_value >> rightside_value;
+            definition_file >> response_function_num;
 
             auto layer_response_funtion = [](auto mid_point, auto leftside_value, auto rightside_value) {
                 return [=](double x) { return 1.0 / (1.0 + exp(-x)); };
@@ -162,7 +163,8 @@ Eigen::MatrixXd Network::go_through_layers()
     tensors[0] = mToT(m_data);
     for (int i = 0; i < m_layers.size(); i++)
     {
-        std::cout << i << std::endl;
+        std::cout << "Layer: " << i << std::endl;
+        std::cout << tensors[i] << std::endl;
         Layer *cur_layer = m_layers[i];
 
         tensors[i + 1] = cur_layer->calculate(tensors[i]);
@@ -229,9 +231,9 @@ bool Network::run()
     int predicted_label = predict_label(soft_max_result);
 
     // double error_result = error(soft_max_result);
-    for (int i = 0; i < soft_max_result.size(); i++) {
-        std::cout << "Probability of label " << i << " is: " << soft_max_result(i) << std::endl;
-    }
+    // for (int i = 0; i < soft_max_result.size(); i++) {
+    //     std::cout << "Probability of label " << i << " is: " << soft_max_result(i) << std::endl;
+    // }
 
     std::cout << "Predict label is: " << predicted_label << std::endl;
 
