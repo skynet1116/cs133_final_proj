@@ -1,3 +1,13 @@
+/// \file test_conv.cpp
+/// \brief A test when the load file is abour linear-transformation , convolution and max-pooling layers.
+///
+/// You can see the loaded file in "../data/conv_net.dat",
+/// all the param is there.
+/// Unfortunatly, we didn't find a proper network for this test.
+/// So the result may be not ideal.
+/// But we believe our library is right,
+/// You can see that the dimention of every layers can match,
+/// and the result of every layers are all what we want.
 #include "Network.hpp"
 int main()
 {

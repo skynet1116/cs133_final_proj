@@ -1,4 +1,14 @@
+/// \file unit_test_conv.cpp
+/// \brief Unit test whther the convolution layer is right.
 #include "ConvolutionLayer.hpp"
+///\code
+///std::vector<Eigen::Tensor<double, 3>> kernels;
+///\endcode
+///The kernels of this layer
+///\code
+///Eigen::Tensor<double, 3> data(3, 3, 3);
+///\endcode
+///The input data which will generate later
 std::vector<Eigen::Tensor<double, 3>> kernels;
 Eigen::Tensor<double, 3> data(3, 3, 3);
 int main()

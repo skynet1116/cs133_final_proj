@@ -1,3 +1,8 @@
+/// \file test_linear.cpp
+/// \brief A test when the load file is only abour linear-transformation layers.
+///
+/// You can see the loaded file in "../data/model-neural-network.dat",
+/// all the param is there.
 #include "Network.hpp"
 
 int main()

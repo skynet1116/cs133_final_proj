@@ -17,7 +17,7 @@ public:
     /// \param[in] rf Several most commonly used response functions defined in Network.hpp
     LinearTransformationLayer(Eigen::MatrixXd param,
                               std::function<double(double)> rf)
-        : layer_type(layer_type), layer_matrix(param), layer_response_function(rf) {}
+        : layer_matrix(param), layer_response_function(rf) {}
 
     /// \brief Calculate function to calculate input to output
     /// \param[in] input_data Input 3d tensor from origin data or last layer of the neural network
@@ -60,7 +60,7 @@ public:
     ~LinearTransformationLayer() {}
 
 private:
-    Eigen::MatrixXd layer_matrix; ///< layer parameter matrix
+    Eigen::MatrixXd layer_matrix;                          ///< layer parameter matrix
     std::function<double(double)> layer_response_function; ///< Chosen lambda function
 };
 
