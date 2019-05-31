@@ -5,7 +5,7 @@
 #include <pybind11/complex.h>
 #include <pybind11/chrono.h>
 #include <pybind11/functional.h>
-#include "network.hpp"
+#include "Network.hpp"
 namespace py = pybind11;
 
 PYBIND11_MODULE(example, m)
