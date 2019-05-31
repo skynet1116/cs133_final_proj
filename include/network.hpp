@@ -1,3 +1,5 @@
+/// \file Network.hpp
+/// \brief Implementation of the whole network structure
 #ifndef CS133_FINAL_NETWORK_HPP
 #define CS133_FINAL_NETWORK_HPP
 
@@ -14,29 +16,47 @@
 const int height = 28;
 const int width = 28;
 
+/// \brief The interface of the library
 class Network
 {
 private:
-    std::vector<Layer *> m_layers;
-    ErrorType m_error_type;
-    Eigen::MatrixXd m_data;
-    int label;
-    std::ifstream images;
-    std::ifstream labels;
+    std::vector<Layer *> m_layers; ///< All layers
+    ErrorType m_error_type; ///< Choosen error type
+    Eigen::MatrixXd m_data; ///< Input data
+    int label; ///< The read in correct label
+    std::ifstream images; ///< Image dataset file stream
+    std::ifstream labels; ///< Label dataset file stream
 
 public:
+    /// \brief Constructor
     Network();
+    /// \brief Destructor
     ~Network();
 
+    /// \brief Function to load network from given file
+    /// Network definition file have the same syntax as give syntax.txt
     void load_network(const std::string &filename);
+    /// \brief Function to open file stream of images and labels from given file
+    /// Now only works for MNIST dataset or other dataset with the same format
     void open_file(std::string image_filename, std::string label_filename);
+    /// \brief Function to load one pair of image-label from file stream
+    /// Loaded data are stored in m_data and label
     void read_one_data();
+    /// \brief Function to load data from 'writing board'
+    /// This is used in Pybind
     void read_from_board(std::vector<int>);
+    /// \brief Function to go through all stored layers
+    /// Simply pass data and go through all layers in m_layers
     Eigen::MatrixXd go_through_layers();
+    /// \brief Function do soft max
     Eigen::VectorXd soft_max(Eigen::MatrixXd data);
+    /// \brief Function to get predicted label from output data
     int predict_label(Eigen::VectorXd soft_max_result);
+    /// \brief Function to calculate error
     double error(Eigen::VectorXd output);
+    /// \brief Function to run the network after all setting is done
     bool run();
+    /// \brief Function to test network in Pybind
     int test();
 };
 Network::Network() {}
