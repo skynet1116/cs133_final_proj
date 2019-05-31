@@ -1,3 +1,6 @@
+'''@package main.py
+Using PtQt5 to build a UI that take input data from C++ neural network.
+'''
 import example
 from PyQt5.QtWidgets import (QWidget, QPushButton, QLabel)
 from PyQt5.QtGui import (QPainter, QPen, QFont)
@@ -87,9 +90,8 @@ class MyMnistWindow(QWidget):
         self.close()
 
     def recognize_img(self, img):
-        '''
-        
-        '''
+        ## @param img image from drawing board
+        ## @return recognization result from C++ neural network package
         myimage = img.convert('L')
         tv = list(myimage.getdata())
         tva = [0 if (255 - x) * 1.0 / 255.0<0.5 else 1 for x in tv]
