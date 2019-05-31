@@ -1,4 +1,4 @@
-/// \file ConvolutionLayer.hpp
+/// \file MaxPoolLayer.hpp
 /// \brief implement Max-Pool layer of neural network.
 #ifndef CS133FINAL_MAXPOOLLAYER_HPP
 #define CS133FINAL_MAXPOOLLAYER_HPP

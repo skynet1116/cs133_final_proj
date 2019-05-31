@@ -47,6 +47,7 @@ int main()
     }
     Eigen::Tensor<double, 3> output(2, 2, 2);
     output = m.calculate(input);
+    std::cout<<std::endl;
     std::cout << "The output data : " << std::endl;
     for (int i = 0; i < output.dimension(0); i++)
     {
