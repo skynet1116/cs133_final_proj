@@ -1,4 +1,4 @@
-/// \file Layer.,hpp
+/// \file Layer.hpp
 /// \brief Implement the base class for neural network layers.
 
 #ifndef CS133_FINAL_LAYER_HPP
