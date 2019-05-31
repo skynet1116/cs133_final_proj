@@ -39,11 +39,7 @@ int main()
             for (int k = 0; k < input.dimension(2); k++)
             {
                 input(i, j, k) = (i + 1) * (j + 1) * (k + 1);
-<<<<<<< HEAD
-                std::cout << input(i,j,k) << " , " << std::endl;
-=======
                 std::cout << input(i,j,k) << " " ;
->>>>>>> e2b8527b1a2a6634d29c4ca1960b93c0b3041b8c
             }
             std::cout << " ] " ; 
         }
