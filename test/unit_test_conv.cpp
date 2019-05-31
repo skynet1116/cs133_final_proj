@@ -1,5 +1,5 @@
 /// \file unit_test_conv.cpp
-/// \brief Unit test whther the convolution layer is right.
+/// \brief Unit test whether the convolution layer is right.
 #include "ConvolutionLayer.hpp"
 ///\code
 ///std::vector<Eigen::Tensor<double, 3>> kernels;

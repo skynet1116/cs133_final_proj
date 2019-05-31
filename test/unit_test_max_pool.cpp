@@ -1,5 +1,5 @@
 /// \file unit_test_max_pool.cpp
-/// \brief Unit test whther the max_pool layer is right.
+/// \brief Unit test whether the max_pool layer is right.
 #include "MaxPoolLayer.hpp"
 #include <functional>
 #include <iostream>
