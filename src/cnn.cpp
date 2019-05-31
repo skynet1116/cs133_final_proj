@@ -1,3 +1,5 @@
+/// \file cnn.,cpp
+/// \brief Bind neural network object to Python
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <pybind11/complex.h>

@@ -1,4 +1,4 @@
-/// \file Factory.,hpp
+/// \file Factory.hpp
 /// \brief Initializes	concrete layers	of	the	network.
 #ifndef CS133_FINAL_FACTORY_HPP
 #define CS133_FINAL_FACTORY_HPP

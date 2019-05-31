@@ -1,4 +1,4 @@
-/// \file ConvolutionLayer.,hpp
+/// \file ConvolutionLayer.hpp
 /// \brief implement  convolution layer of neural network.
 #ifndef CS133FINAL_CONVOLUTIONLAYER_HPP
 #define CS133FINAL_CONVOLUTIONLAYER_HPP
