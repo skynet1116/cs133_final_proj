@@ -9,7 +9,7 @@ int main()
         {
             for (int k = 0; k < 3; k++)
             {
-                data(i, j, k) = i + j + k*2;
+                data(i, j, k) = i + j + k * 2;
             }
         }
     }
@@ -34,10 +34,10 @@ int main()
     for (auto i : kernels)
     {
         std::cout << i << std::endl;
-        std::cout<<"_______"<<std::endl;
+        std::cout << "_______" << std::endl;
     }
-    std::cout<<"cnn!"<<std::endl;
-    ConvolutionLayer object(kernels,[](double x){return x;});
-    std::cout<<object.calculate(data)<<std::endl;
+    std::cout << "cnn!" << std::endl;
+    ConvolutionLayer object(kernels, [](double x) { return x; });
+    std::cout << object.calculate(data) << std::endl;
     return 0;
 }

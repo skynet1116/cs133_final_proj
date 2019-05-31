@@ -6,7 +6,8 @@
 #include "network.hpp"
 namespace py = pybind11;
 
-PYBIND11_MODULE(example, m) {
+PYBIND11_MODULE(example, m)
+{
     py::class_<Network>(m, "Network")
         .def(py::init<>())
         .def("read_from_board", &Network::read_from_board)

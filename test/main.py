@@ -5,6 +5,7 @@ from PyQt5.QtCore import Qt
 import sys
 from PyQt5.QtWidgets import QApplication
 from PIL import ImageGrab, Image
+import time
 
 class MyMnistWindow(QWidget):
 
@@ -112,11 +113,12 @@ class MyMnistWindow(QWidget):
         myimage = img.convert('L')  # 转换成灰度图
         tv = list(myimage.getdata())  # 获取图片像素值
         tva = [0 if (255 - x) * 1.0 / 255.0<0.5 else 1 for x in tv]  # 转换像素范围到[0 1], 0是纯白 1是纯黑
-
+        start=time.clock()
         n=example.Network()
         n.load_network("../data/model-neural-network.dat")
         n.read_from_board(tva)
         result = n.test()
+        print(time.clock()-start)
         return result
 if __name__ == "__main__":
     app = QApplication(sys.argv)

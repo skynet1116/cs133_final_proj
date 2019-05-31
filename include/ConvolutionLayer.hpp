@@ -1,25 +1,23 @@
-//
-// Created by 15752 on 2019/5/28.
-//
-
+/// \ConvolutionLayer.,hpp
+/// \brief implement  convolution layer of neural network
 #ifndef CS133FINAL_CONVOLUTIONLAYER_HPP
 #define CS133FINAL_CONVOLUTIONLAYER_HPP
 #include "Layer.hpp"
 #include <iostream>
 #include <unsupported/Eigen/CXX11/Tensor>
-
+/// \brief child class of Layer class
+/// convolution layer takes a 3*3*3 tensor as input and output a 3*3*3 tensor,
+/// convolution layer takes a list of  3*3*3 tensor as parameter, which are converlution kernels
 class ConvolutionLayer : public Layer
 {
     using tensor = Eigen::Tensor<double, 3>;
 
 private:
-    int padding;
-    int stride;
-    std::vector<tensor> kernels;
+    std::vector<tensor> kernels; ///<
     std::function<double(double)> response_function;
 
 public:
-    ConvolutionLayer(std::vector<tensor> param,std::function<double(double)> rf) : kernels(param),response_function(rf){};
+    ConvolutionLayer(std::vector<tensor> param, std::function<double(double)> rf) : kernels(param), response_function(rf){};
     ~ConvolutionLayer() = default;
     Eigen::MatrixXd conv_2d(Eigen::MatrixXd input_data, Eigen::MatrixXd kernel)
     {
@@ -39,7 +37,7 @@ public:
                         sum += convolution_window(row, col) * kernel(row, col);
                     }
                 }
-                sum=response_function(sum);
+                sum = response_function(sum);
                 result(i, j) = sum;
             }
         }

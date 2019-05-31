@@ -3,20 +3,22 @@
 
 #include "Layer.hpp"
 
-class LinearTransformationLayer : public Layer {
+class LinearTransformationLayer : public Layer
+{
 public:
     LinearTransformationLayer(Eigen::MatrixXd param,
-                                                     std::function<double(double)> rf)
-    : layer_type(layer_type), layer_matrix(param), layer_response_function(rf) {}
+                              std::function<double(double)> rf)
+        : layer_type(layer_type), layer_matrix(param), layer_response_function(rf) {}
 
     Eigen::Tensor<double, 3> calculate(Eigen::Tensor<double, 3> input_data)
     {
-        double* input_data_array = input_data.data();
+        double *input_data_array = input_data.data();
         int input_size = input_data.dimension(0) * input_data.dimension(1) * input_data.dimension(2);
 
         Eigen::RowVectorXd reshaped_data(input_size);
 
-        for (int i = 0; i < input_size; i++) {
+        for (int i = 0; i < input_size; i++)
+        {
             reshaped_data(i) = input_data_array[i];
         }
 
@@ -31,8 +33,10 @@ public:
         }
 
         Eigen::Tensor<double, 3> ret(1, result.rows(), result.cols());
-        for (int i = 0; i < result.rows(); i++) {
-            for (int j = 0; j < result.cols(); j++) {
+        for (int i = 0; i < result.rows(); i++)
+        {
+            for (int j = 0; j < result.cols(); j++)
+            {
                 ret(0, i, j) = result(i, j);
             }
         }

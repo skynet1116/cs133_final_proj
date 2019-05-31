@@ -17,11 +17,11 @@ void Network::load_network(const std::string &filename)
     int response_function_num;
 
     std::vector<std::function<double(double)>> response_functions = {
-        [=](double x) { return x; }, //NO need for RF
+        [=](double x) { return x; },                     //NO need for RF
         [=](double x) { return 1.0 / (1.0 + exp(-x)); }, //sigmoid
-        [=](double x) { if(x<0){return 0.0;} else{return x;} }, //RELU
-        [=](double x) { if(x<0){return (0.1*x);} else{return x;} }, //Leaky RELU
-        [=](double x) { return tanh(x); } //tanh
+        [=](double x) { if(x<0){return 0.0;} else{return x;} },                               //RELU
+        [=](double x) { if(x<0){return (0.1*x);} else{return x;} },                               //Leaky RELU
+        [=](double x) { return tanh(x); }                //tanh
     };
 
     for (int i = 0; i < layer_num; i++)
@@ -74,7 +74,7 @@ void Network::load_network(const std::string &filename)
             LayerFactory factory;
             std::vector<int> mp_param = {2, 2};
             m_layers.push_back(factory.CreateConvolutionLayer(tensors, response_functions[response_function_num]));
-            m_layers.push_back(factory.CreateMaxPoolLayer(mp_param, [](double x){ return x;}));
+            m_layers.push_back(factory.CreateMaxPoolLayer(mp_param, [](double x) { return x; }));
         }
     }
 
@@ -129,22 +129,27 @@ void Network::read_one_data()
 void Network::read_from_board(std::vector<int> input)
 {
     Eigen::MatrixXd d(width, height);
-    int count=0;
-    for (int i=0;i<width;i++){
-        for (int j=0;j<height;j++){
-            d(i,j)=input[count];
+    int count = 0;
+    for (int i = 0; i < width; i++)
+    {
+        for (int j = 0; j < height; j++)
+        {
+            d(i, j) = input[count];
             count++;
         }
     }
-    m_data=d.transpose();
-    label=-1;
+    m_data = d.transpose();
+    label = -1;
 }
 
-Eigen::Tensor<double, 3> mToT(Eigen::MatrixXd input) {
+Eigen::Tensor<double, 3> mToT(Eigen::MatrixXd input)
+{
     Eigen::Tensor<double, 3> result(1, input.rows(), input.cols());
 
-    for (int i = 0; i < input.rows(); i++) {
-        for (int j = 0; j < input.cols(); j++) {
+    for (int i = 0; i < input.rows(); i++)
+    {
+        for (int j = 0; j < input.cols(); j++)
+        {
             result(0, i, j) = input(i, j);
         }
     }
@@ -152,11 +157,14 @@ Eigen::Tensor<double, 3> mToT(Eigen::MatrixXd input) {
     return result;
 }
 
-Eigen::MatrixXd tToM(Eigen::Tensor<double, 3> input) {
+Eigen::MatrixXd tToM(Eigen::Tensor<double, 3> input)
+{
     Eigen::MatrixXd result(input.dimension(1), input.dimension(2));
 
-    for (int i = 0; i < input.dimension(1); i++) {
-        for (int j = 0; j < input.dimension(2); j++) {
+    for (int i = 0; i < input.dimension(1); i++)
+    {
+        for (int j = 0; j < input.dimension(2); j++)
+        {
             result(i, j) = input(0, i, j);
         }
     }
@@ -166,7 +174,7 @@ Eigen::MatrixXd tToM(Eigen::Tensor<double, 3> input) {
 
 Eigen::MatrixXd Network::go_through_layers()
 {
-    std::vector<Eigen::Tensor<double,3>> tensors(m_layers.size() + 1);
+    std::vector<Eigen::Tensor<double, 3>> tensors(m_layers.size() + 1);
     tensors[0] = mToT(m_data);
     for (int i = 0; i < m_layers.size(); i++)
     {
@@ -194,7 +202,7 @@ Eigen::VectorXd Network::soft_max(Eigen::MatrixXd data)
         result(i) = exp(data(i)) / sum;
     }
 
-    return result/result.sum();
+    return result / result.sum();
 }
 
 int Network::predict_label(Eigen::VectorXd soft_max_result)
@@ -216,12 +224,17 @@ double Network::error(Eigen::VectorXd output)
 {
     double result = 0.0;
     //output.normalize();
-    if (m_error_type == error_type_abs) {
-        for (int i = 0; i < output.size(); i++) {
+    if (m_error_type == error_type_abs)
+    {
+        for (int i = 0; i < output.size(); i++)
+        {
             result += std::abs(output(i) - (label == i ? 1 : 0));
         }
-    } else {
-        for (int i = 0; i < output.size(); i++) {
+    }
+    else
+    {
+        for (int i = 0; i < output.size(); i++)
+        {
             result += pow((output(i) - (label == i ? 1 : 0)), 2);
         }
         result = pow(result, 0.5);
@@ -239,13 +252,15 @@ bool Network::run()
     int predicted_label = predict_label(soft_max_result);
 
     double error_result = error(soft_max_result);
-    for (int i = 0; i < soft_max_result.size(); i++) {
+    for (int i = 0; i < soft_max_result.size(); i++)
+    {
         std::cout << "Probability of label " << i << " is: " << soft_max_result(i) << std::endl;
     }
 
     std::cout << "Predict label is: " << predicted_label << std::endl;
 
-    if (predicted_label != label)  {
+    if (predicted_label != label)
+    {
         std::cout << "Prediction wrong!" << std::endl;
         return false;
     }
@@ -258,7 +273,8 @@ int Network::test()
     Eigen::VectorXd soft_max_result = soft_max(result);
     int predicted_label = predict_label(soft_max_result);
     double error_result = error(soft_max_result);
-    for (int i = 0; i < soft_max_result.size(); i++) {
+    for (int i = 0; i < soft_max_result.size(); i++)
+    {
         std::cout << "Probability of label " << i << " is: " << soft_max_result(i) << std::endl;
     }
     std::cout << "Predict label is: " << predicted_label << std::endl;

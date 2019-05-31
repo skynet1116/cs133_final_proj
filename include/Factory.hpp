@@ -10,9 +10,9 @@ public:
     {
         return new LinearTransformationLayer(param, rf);
     }
-    Layer *CreateConvolutionLayer(std::vector<Eigen::Tensor<double, 3>> kernels,std::function<double(double)> rf)
+    Layer *CreateConvolutionLayer(std::vector<Eigen::Tensor<double, 3>> kernels, std::function<double(double)> rf)
     {
-        return new ConvolutionLayer(kernels,rf);
+        return new ConvolutionLayer(kernels, rf);
     }
     Layer *CreateMaxPoolLayer(std::vector<int> param, std::function<double(double)> rf)
     {
