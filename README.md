@@ -20,7 +20,7 @@ This library can load pre-trained neural network, load dataset, and run test on 
 Eigen, Pybind11
 
 ## How to build
-Under root directory
+Under project root directory
 
 ```
 git clone https://github.com/pybind/pybind11.git
