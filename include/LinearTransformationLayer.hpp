@@ -13,15 +13,15 @@ class LinearTransformationLayer : public Layer
 {
 public:
     /// \brief Constructor
-    /// \param[in] param layer parameter matrix
-    /// \param[in] rf several most commonly used response functions defined in Network.hpp
+    /// \param[in] param Layer parameter matrix
+    /// \param[in] rf Several most commonly used response functions defined in Network.hpp
     LinearTransformationLayer(Eigen::MatrixXd param,
                               std::function<double(double)> rf)
         : layer_type(layer_type), layer_matrix(param), layer_response_function(rf) {}
 
     /// \brief Calculate function to calculate input to output
-    /// \param[in] input 3d tensor from origin data or last layer of the neural network
-    /// \return the linear transformation result
+    /// \param[in] input_data Input 3d tensor from origin data or last layer of the neural network
+    /// \return The linear transformation result
     Eigen::Tensor<double, 3> calculate(Eigen::Tensor<double, 3> input_data)
     {
         double *input_data_array = input_data.data();

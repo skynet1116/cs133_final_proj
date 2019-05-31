@@ -35,24 +35,35 @@ public:
 
     /// \brief Function to load network from given file
     /// Network definition file have the same syntax as give syntax.txt
+    /// \param[in] filename Filename of network definition file
     void load_network(const std::string &filename);
     /// \brief Function to open file stream of images and labels from given file
     /// Now only works for MNIST dataset or other dataset with the same format
+    /// \param[in] image_filename Filename of the image dataset
+    /// \param[in] label_filename Filename of the label dataset
     void open_file(std::string image_filename, std::string label_filename);
     /// \brief Function to load one pair of image-label from file stream
     /// Loaded data are stored in m_data and label
     void read_one_data();
     /// \brief Function to load data from 'writing board'
     /// This is used in Pybind
+    /// \param[in] input Input given by python
     void read_from_board(std::vector<int>);
     /// \brief Function to go through all stored layers
     /// Simply pass data and go through all layers in m_layers
+    /// \return The final data, this is the output of the last layer
     Eigen::MatrixXd go_through_layers();
-    /// \brief Function do soft max
+    /// \brief Function do softmax
+    /// \param[in] data Data to be done with softmax
+    /// \return Data after doing softmax
     Eigen::VectorXd soft_max(Eigen::MatrixXd data);
     /// \brief Function to get predicted label from output data
+    /// \param[in] soft_max_result As the parameter name
+    /// \return The predicted label
     int predict_label(Eigen::VectorXd soft_max_result);
     /// \brief Function to calculate error
+    /// \param[in] output The output vector
+    /// \return The error value
     double error(Eigen::VectorXd output);
     /// \brief Function to run the network after all setting is done
     bool run();
