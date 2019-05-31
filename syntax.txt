@@ -1,9 +1,9 @@
 <Layer Number>
-<Layer Type> <Width> <Height>
+<Layer Type> [<Input Channel> <Output Channel>] <Width> <Height>
 data
 ...
 <Response Function Type>
-<Layer Type> <Width> <Height>
+<Layer Type> [<Input Channel> <Output Channel>] <Width> <Height>
 data
 ...
 <Response Function Type>

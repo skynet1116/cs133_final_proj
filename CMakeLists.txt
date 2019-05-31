@@ -20,10 +20,8 @@ setup_eigen()
 # download_pybind11()
 
 set(CS133_FINAL_LIB ${PROJECT_NAME})
-set(CS133_FINAL_SRC
-        ${PROJECT_SOURCE_DIR}/src/Network.cpp)
-add_library(${CS133_FINAL_LIB} ${CS133_FINAL_SRC})
-target_link_libraries(${CS133_FINAL_LIB} Eigen3::Eigen)
+add_library(${CS133_FINAL_LIB} INTERFACE)
+target_link_libraries(${CS133_FINAL_LIB} INTERFACE Eigen3::Eigen)
 
 add_subdirectory(pybind11)
 pybind11_add_module(example ${PROJECT_SOURCE_DIR}/src/cnn.cpp ${CS133_FINAL_SRC})
