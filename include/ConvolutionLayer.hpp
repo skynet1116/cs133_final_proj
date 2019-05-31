@@ -29,6 +29,7 @@ public:
     /// This function is invoked in 3d convolution by divilding 3d tensor to vector of 2d matrix
     ///\param[in] input_data data matrix which convolution will be applyed
     ///\param[in] kernel a 2d convolution kernel
+    ///\return the convolution result matrix
     ///
     ///\code
     ///int space_x = input_data.cols() - kernel.cols() + 1;
@@ -68,6 +69,7 @@ public:
     }
     ///\brief Concrete implementation of abstruct definition in base class: Layer
     ///\param[in] input 3d tensor from origin data or last layer of the neural network
+    ///\return the convolution result 3d tensor
     tensor calculate(tensor input)
     {
         int conv_window_x = input.dimension(1) - kernels[0].dimension(1) + 1;
