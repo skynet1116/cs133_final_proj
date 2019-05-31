@@ -1,4 +1,4 @@
-/// \file MaxPoolLayer.hpp
+/// \file ConvolutionLayer.hpp
 /// \brief implement Max-Pool layer of neural network.
 #ifndef CS133FINAL_MAXPOOLLAYER_HPP
 #define CS133FINAL_MAXPOOLLAYER_HPP
@@ -21,11 +21,11 @@ public:
     ///
     /// This function is compute the max in the block of one layer of the input data.
     ///\param[in] input_data data matrix which max-pooling will be applyed
-    ///\param[in] the layer i of input data which max-pooling will be applyed
-    ///\param[in] the begin_row of the pooling block
-    ///\param[in] the end_row of the pooling block
-    ///\param[in] the begin_col of the pooling block
-    ///\param[in] the end_col of the pooling block
+    ///\param[in] i the layer i of input data which max-pooling will be applyed
+    ///\param[in] begin_row the begin_row of the pooling block
+    ///\param[in] end_row the end_row of the pooling block
+    ///\param[in] begin_col the begin_col of the pooling block
+    ///\param[in] end_col the end_col of the pooling block
     ///\return the max in the pooling block of the i-th layer of input data.
     double window_max(Eigen::Tensor<double,3> input_data, int i, int begin_row, int end_row, int begin_col, int end_col)
     {
